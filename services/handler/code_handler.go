@@ -5,10 +5,9 @@ import (
 	"log"
 	"net/http"
 	"server/models"
-	"server/services/util/k8s"
+	"server/services/util/executor"
 	"strings"
 	"time"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +28,7 @@ func HandleCodeExecution(c *gin.Context) {
 	resultChan := make(chan string)
 
 	go func() {
-		k8s.Execute(codeData.Language, codeData.Body, resultChan, ctx)
+		executor.Execute(codeData.Language, codeData.Body, resultChan, ctx)
 	}()
 
 	select {

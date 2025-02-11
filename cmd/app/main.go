@@ -7,7 +7,6 @@ import (
 	"server/internal/api/http/routes"
 	db "server/internal/database"
 	"server/services/util/executor"
-	"server/services/util/k8s"
 	"syscall"
 
 	"github.com/gin-contrib/cors"
@@ -21,11 +20,7 @@ func main() {
 		os.Exit(1)
 	}
 	log.Println("Docker client initialized!")
-	_,err= k8s.NewClient()
-	if err != nil {
-		log.Println("Failed to initiate kubernetes client!!")
-		os.Exit(1)
-	}
+
 	router := gin.New()
 
 	// Register all the routes
@@ -56,8 +51,8 @@ func main() {
 	// Shutting down all the listeners
 	log.Println("Closing the DB connection pool !!")
 	db.ShutDownDbPool()
-	// log.Println("Closing the Docker client")
-	// executor.CloseClient()
+	log.Println("Closing the Docker client")
+	executor.CloseClient()
 
 	log.Println("Server shut down gracefully")
 }

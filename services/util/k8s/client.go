@@ -56,7 +56,7 @@ func Execute(language, code string, resultChan chan<- string, ctx context.Contex
 
 	// Define the Kubernetes job
 	jobName := fmt.Sprintf("code-executor-%d", time.Now().UnixNano())
-	job := &batchv1.Job{
+	jobSpecs := &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: jobName,
 		},
@@ -81,7 +81,7 @@ func Execute(language, code string, resultChan chan<- string, ctx context.Contex
 		},
 	}
 
-	job, err := Client.BatchV1().Jobs("default").Create(ctx, job, metav1.CreateOptions{})
+	job, err := Client.BatchV1().Jobs("default").Create(ctx, jobSpecs, metav1.CreateOptions{})
 	if err != nil {
 		resultChan <- fmt.Sprintf("failed to create job: %v", err)
 		return
