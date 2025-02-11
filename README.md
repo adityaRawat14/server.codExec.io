@@ -1,0 +1,5 @@
+- clone the repo , it will not make any sense to fork it  , but still if you want then you can ,
+- type command " go get "( install go dependencies )
+- start the docker demon if running locally 
+- build all the required docker images from available in path internal/deploy/docker/{}    ,  names for the images are written on the top of each docker file (keep the name same while building)
+- if not running locally push all the images to the dockerhub and then use it
